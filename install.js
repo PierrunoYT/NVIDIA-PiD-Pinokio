@@ -45,6 +45,7 @@ module.exports = {
         venv: "env",
         path: "app",
         message: [
+          "uv pip install sympy networkx jinja2 fsspec filelock typing-extensions",
           "python verify_env.py"
         ]
       }
@@ -52,7 +53,7 @@ module.exports = {
     {
       method: "fs.link",
       params: {
-        venv: "env"
+        venv: "app/env"
       }
     },
     {

@@ -34,6 +34,16 @@ module.exports = {
       }
     },
     {
+      method: "shell.run",
+      params: {
+        venv: "env",
+        path: "app",
+        message: [
+          "uv pip install sympy networkx jinja2 fsspec filelock typing-extensions"
+        ]
+      }
+    },
+    {
       method: "notify",
       params: {
         html: "Updated PiD source and Python dependencies."

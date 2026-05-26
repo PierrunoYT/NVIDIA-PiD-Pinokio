@@ -4,7 +4,7 @@ module.exports = {
   description: "NVIDIA PiD — Pixel Diffusion Decoder. Z-Image generation with 4× PiD super-resolution. Weights: nvidia/PiD (NSCLv1, non-commercial).",
   icon: "icon.jpeg",
   menu: async (kernel, info) => {
-    let installed = info.exists("env") && info.exists("app/verify_env.py")
+    let installed = info.exists("app/env") && info.exists("app/verify_env.py")
     let checkpoints = info.exists("app/checkpoints/ae.safetensors")
     let running = {
       install: info.running("install.js"),

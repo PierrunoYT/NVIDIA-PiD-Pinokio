@@ -18,7 +18,7 @@ module.exports = {
       method: "shell.run",
       params: {
         venv: "env",
-        path: ".",
+        path: "app",
         env: {
           HF_HUB_ENABLE_HF_TRANSFER: "1",
           HF_HUB_DOWNLOAD_TIMEOUT: "300",
@@ -26,7 +26,7 @@ module.exports = {
           PYTORCH_CUDA_ALLOC_CONF: "expandable_segments:True"
         },
         message: [
-          "python gradio_app.py --host 127.0.0.1 --port {{port}}"
+          "python ../gradio_app.py --host 127.0.0.1 --port {{port}}"
         ],
         on: [{
           event: "/(http:\\/\\/[0-9.:]+)/",
