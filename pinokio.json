@@ -1,0 +1,5 @@
+{
+  "title": "PiD",
+  "description": "NVIDIA PiD — Pixel Diffusion Decoder for high-resolution latent decoding. Gradio UI for Z-Image + 4× PiD upscale, plus CLI demos for Flux.",
+  "gpu": "nvidia"
+}
