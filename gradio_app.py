@@ -89,6 +89,14 @@ def load_models():
     return pipeline, pipe_cfg, taef1, pid_models
 
 
+def _parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--port", type=int, default=7860)
+    return parser.parse_args()
+
+
+ARGS = _parse_args()
 PIPELINE, PIPE_CFG, TAEF1, PID_MODELS = load_models()
 
 
@@ -204,26 +212,28 @@ def generate(
         return callback_kwargs
 
     def run_pipeline():
-        gen_torch = torch.Generator(device="cuda").manual_seed(seed)
-        gen_kwargs = dict(
-            prompt=prompt,
-            height=height,
-            width=width,
-            num_inference_steps=num_inference_steps,
-            guidance_scale=float(guidance_scale),
-            num_images_per_prompt=1,
-            output_type="latent",
-            generator=gen_torch,
-            callback_on_step_end=streaming_cb,
-            callback_on_step_end_tensor_inputs=["latents"],
-        )
-        gen_kwargs.update(PIPE_CFG.extra_generate_kwargs)
+        result = None
         try:
+            gen_torch = torch.Generator(device="cuda").manual_seed(seed)
+            gen_kwargs = dict(
+                prompt=prompt,
+                height=height,
+                width=width,
+                num_inference_steps=num_inference_steps,
+                guidance_scale=float(guidance_scale),
+                num_images_per_prompt=1,
+                output_type="latent",
+                generator=gen_torch,
+                callback_on_step_end=streaming_cb,
+                callback_on_step_end_tensor_inputs=["latents"],
+            )
+            gen_kwargs.update(getattr(PIPE_CFG, "extra_generate_kwargs", None) or {})
             with torch.no_grad():
-                out = PIPELINE(**gen_kwargs)
-            preview_q.put((done, out))
-        except Exception as exc:
-            preview_q.put((done, exc))
+                result = PIPELINE(**gen_kwargs)
+        except BaseException as exc:  # noqa: BLE001 - must always release the consumer
+            result = exc
+        finally:
+            preview_q.put((done, result))
 
     thread = threading.Thread(target=run_pipeline, daemon=True)
     thread.start()
@@ -232,7 +242,7 @@ def generate(
     while True:
         step_index, payload = preview_q.get()
         if step_index is done:
-            if isinstance(payload, Exception):
+            if isinstance(payload, BaseException):
                 raise payload
             raw_output = payload
             break
@@ -261,6 +271,9 @@ def generate(
             gr.update(visible=False),
             gr.update(),
         )
+
+    if pid_img is None:
+        raise gr.Error("PiD decoder produced no output.")
 
     yield (
         gr.update(visible=False, value=None),
@@ -321,12 +334,9 @@ with gr.Blocks(title="PiD", css=CSS) as demo:
         fn=generate,
         inputs=[prompt, num_inference_steps, guidance_scale, seed, resolution, randomize_seed],
         outputs=[live_preview, slider, seed],
+        api_name="generate",
     )
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--host", default="127.0.0.1")
-    parser.add_argument("--port", type=int, default=7860)
-    args = parser.parse_args()
-    demo.queue().launch(server_name=args.host, server_port=args.port)
+    demo.queue().launch(server_name=ARGS.host, server_port=ARGS.port)
