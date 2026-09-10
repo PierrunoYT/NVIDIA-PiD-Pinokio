@@ -20,7 +20,7 @@ module.exports = {
         venv: "env",
         path: "app",
         message: [
-          "uv pip install \"diffusers>=0.37.0\" \"transformers>=4.57\" safetensors sentencepiece huggingface_hub gradio",
+          "uv pip install \"diffusers>=0.37.0\" \"transformers>=4.57\" safetensors sentencepiece huggingface_hub hf_transfer gradio",
           "uv pip install numpy pandas pillow imageio opencv-python-headless einops",
           "uv pip install hydra-core omegaconf pyyaml attrs",
           "uv pip install loguru termcolor fvcore iopath wandb packaging",

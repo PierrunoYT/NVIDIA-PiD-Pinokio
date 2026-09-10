@@ -9,6 +9,7 @@ module.exports = {
     {
       method: "shell.run",
       params: {
+        venv: "env",
         path: "app",
         env: {
           HF_HUB_ENABLE_HF_TRANSFER: "1",
