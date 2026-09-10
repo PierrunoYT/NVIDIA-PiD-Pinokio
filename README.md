@@ -15,7 +15,7 @@ One-click Pinokio launcher for [NVIDIA PiD](https://github.com/nv-tlabs/PiD): a 
 ## Requirements
 
 - **NVIDIA GPU** with CUDA (roughly 13 GB+ VRAM for 512→2048; more for 1024→4K)
-- **Pinokio** with `uv`, `git`, and `hf` CLI
+- **Pinokio** with `uv` and `git` (the `hf` CLI is installed into the app venv)
 - Disk space for PiD checkpoints and Hugging Face model caches
 
 ## How to use
@@ -70,12 +70,14 @@ result = client.predict(
     0,    # seed
     512,  # resolution
     True, # randomize_seed
+    api_name="/generate",
 )
 ```
 
 ### Python (upstream PiD API)
 
 ```python
+import os
 import subprocess
 
 subprocess.run([
@@ -87,7 +89,7 @@ subprocess.run([
     "--cfg_scale", "1",
     "--pid_inference_steps", "4",
     "--scale", "4",
-], cwd="app", env={"PYTHONPATH": "."})
+], cwd="app", env={**os.environ, "PYTHONPATH": "."})
 ```
 
 ### cURL (Gradio HTTP API)
@@ -98,7 +100,7 @@ After the Web UI is running, list routes:
 curl http://127.0.0.1:7860/info
 ```
 
-Then POST to the documented prediction endpoint (route name depends on Gradio version).
+Then POST to `/gradio_api/call/generate` (the route is pinned via `api_name="generate"`).
 
 ## Launcher scripts
 
@@ -109,7 +111,7 @@ Then POST to the documented prediction endpoint (route name depends on Gradio ve
 | `start.js` | Launch Gradio UI |
 | `demo-flux.js` | Run official Flux CLI demo |
 | `update.js` | Pull latest PiD source and refresh deps |
-| `reset.js` | Remove `env/` virtual environment |
+| `reset.js` | Remove the `app/env` virtual environment |
 | `link.js` | Deduplicate venv packages to save disk |
 | `torch.js` | Cross-platform PyTorch install helper |
 
