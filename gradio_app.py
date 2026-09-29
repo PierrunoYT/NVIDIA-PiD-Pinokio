@@ -44,15 +44,22 @@ PID_INFERENCE_STEPS = 4
 
 
 def ensure_checkpoints():
-    snapshot_download(
-        repo_id="nvidia/PiD",
-        local_dir=str(APP_DIR),
-        allow_patterns=[
-            "checkpoints/PiD_res2k_sr4x_official_flux_distill_4step/*",
-            "checkpoints/PiD_v1pt5_res2kto4k_sr4x_official_flux_distill_4step/*",
-            "checkpoints/ae.safetensors",
-        ],
-    )
+    try:
+        snapshot_download(
+            repo_id="nvidia/PiD",
+            local_dir=str(APP_DIR),
+            allow_patterns=[
+                "checkpoints/PiD_res2k_sr4x_official_flux_distill_4step/*",
+                "checkpoints/PiD_v1pt5_res2kto4k_sr4x_official_flux_distill_4step/*",
+                "checkpoints/ae.safetensors",
+            ],
+        )
+    except Exception as exc:
+        # Allow offline starts when the checkpoints are already on disk.
+        required = [get_pid_checkpoint(BACKBONE, t).checkpoint_path for t in ("2k", "2kto4k_v1pt5")]
+        if not all((APP_DIR / p).is_file() for p in required):
+            raise
+        print(f"[pid] checkpoint sync skipped, using local files: {exc}", flush=True)
 
 
 def load_models():
