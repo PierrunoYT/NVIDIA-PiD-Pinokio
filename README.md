@@ -45,7 +45,7 @@ For 4K decoding:
 ```bash
 PYTHONPATH=. python -m pid._src.inference.from_ldm_flux \
   --prompt "A photorealistic cat" \
-  --resolution 1024 --pid_ckpt_type 2kto4k \
+  --resolution 1024 --pid_ckpt_type 2kto4k_v1pt5 \
   --ldm_inference_steps 28 --save_xt_steps 24 \
   --output_dir ../results/demo_4k \
   --cfg_scale 1 --pid_inference_steps 4 --scale 4

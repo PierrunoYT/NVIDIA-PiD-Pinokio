@@ -49,7 +49,7 @@ def ensure_checkpoints():
         local_dir=str(APP_DIR),
         allow_patterns=[
             "checkpoints/PiD_res2k_sr4x_official_flux_distill_4step/*",
-            "checkpoints/PiD_res2kto4k_sr4x_official_flux_distill_4step/*",
+            "checkpoints/PiD_v1pt5_res2kto4k_sr4x_official_flux_distill_4step/*",
             "checkpoints/ae.safetensors",
         ],
     )
@@ -83,7 +83,7 @@ def load_models():
 
     pid_models = {
         "2k": _load_pid("2k"),
-        "2kto4k": _load_pid("2kto4k"),
+        "2kto4k_v1pt5": _load_pid("2kto4k_v1pt5"),
     }
     print("[pid] ready", flush=True)
     return pipeline, pipe_cfg, taef1, pid_models
@@ -101,7 +101,7 @@ PIPELINE, PIPE_CFG, TAEF1, PID_MODELS = load_models()
 
 
 def _pick_pid_model(resolution: int):
-    return PID_MODELS["2kto4k"] if resolution > 512 else PID_MODELS["2k"]
+    return PID_MODELS["2kto4k_v1pt5"] if resolution > 512 else PID_MODELS["2k"]
 
 
 def _taef1_preview(packed_latent: torch.Tensor, height: int, width: int) -> Image.Image:
@@ -322,7 +322,7 @@ with gr.Blocks(title="PiD", css=CSS) as demo:
                 label="Z-Image resolution",
                 choices=[512, 1024],
                 value=512,
-                info="512 → 2048² (PiD 2k); 1024 → 4096² (PiD 2kto4k)",
+                info="512 → 2048² (PiD 2k); 1024 → 4096² (PiD 2kto4k v1.5)",
             )
             num_inference_steps = gr.Slider(label="Z-Image steps", minimum=8, maximum=50, step=1, value=28)
         with gr.Row():

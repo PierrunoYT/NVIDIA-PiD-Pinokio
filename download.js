@@ -16,7 +16,7 @@ module.exports = {
           HF_HUB_DOWNLOAD_TIMEOUT: "300"
         },
         message: [
-          "hf download nvidia/PiD --local-dir . --include \"checkpoints/PiD_res2k_sr4x_official_flux_distill_4step/*\" --include \"checkpoints/PiD_res2kto4k_sr4x_official_flux_distill_4step/*\" --include \"checkpoints/ae.safetensors\""
+          "hf download nvidia/PiD --local-dir . --include \"checkpoints/PiD_res2k_sr4x_official_flux_distill_4step/*\" --include \"checkpoints/PiD_v1pt5_res2kto4k_sr4x_official_flux_distill_4step/*\" --include \"checkpoints/ae.safetensors\""
         ]
       }
     },
