@@ -20,7 +20,7 @@ One-click Pinokio launcher for [NVIDIA PiD](https://github.com/nv-tlabs/PiD): a 
 
 ## How to use
 
-1. Click **Install** — clones [nv-tlabs/PiD](https://github.com/nv-tlabs/PiD) into `app/`, creates a Python venv, installs PyTorch and dependencies, and runs `verify_env.py`.
+1. Click **Install** — clones [nv-tlabs/PiD](https://github.com/nv-tlabs/PiD) into `app/`, creates a Python 3.12 venv (required by upstream PiD), installs PyTorch 2.10 (CUDA 12.8) and dependencies, and runs `verify_env.py`. If you installed with an older launcher version, click **Reset** and then **Install** to rebuild the venv on Python 3.12.
 2. Click **Download Checkpoints** — downloads Flux-compatible PiD weights into `app/checkpoints/`.
 3. Click **Start** — launches the Gradio UI at `http://127.0.0.1:<port>`.
 4. Optional: **Flux CLI Demo** — batch inference without the web UI. It uses the gated [FLUX.1-dev](https://huggingface.co/black-forest-labs/FLUX.1-dev) model: accept its license on Hugging Face and run `hf auth login` (or set `HF_TOKEN`) first.

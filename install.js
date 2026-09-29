@@ -18,14 +18,10 @@ module.exports = {
       method: "shell.run",
       params: {
         venv: "env",
+        venv_python: "3.12",
         path: "app",
         message: [
-          "uv pip install \"diffusers>=0.37.0\" \"transformers>=4.57\" safetensors sentencepiece huggingface_hub hf_transfer gradio",
-          "uv pip install numpy pandas pillow imageio opencv-python-headless einops",
-          "uv pip install hydra-core omegaconf pyyaml attrs",
-          "uv pip install loguru termcolor fvcore iopath wandb packaging",
-          "uv pip install boto3 botocore",
-          "uv pip install -e ."
+          "python --version"
         ]
       }
     },
@@ -45,7 +41,16 @@ module.exports = {
         venv: "env",
         path: "app",
         message: [
-          "uv pip install sympy networkx jinja2 fsspec filelock typing-extensions",
+          "uv pip install -e . gradio hf_transfer"
+        ]
+      }
+    },
+    {
+      method: "shell.run",
+      params: {
+        venv: "env",
+        path: "app",
+        message: [
           "python verify_env.py"
         ]
       }
