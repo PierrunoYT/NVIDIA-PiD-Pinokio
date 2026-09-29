@@ -4,6 +4,7 @@ module.exports = {
       method: "shell.run",
       params: {
         message: [
+          "git pull",
           "git -C app pull"
         ]
       }

@@ -110,7 +110,7 @@ Then POST to `/gradio_api/call/generate` (the route is pinned via `api_name="gen
 | `download.js` | Download Flux/Z-Image PiD checkpoints |
 | `start.js` | Launch Gradio UI |
 | `demo-flux.js` | Run official Flux CLI demo |
-| `update.js` | Pull latest PiD source and refresh deps |
+| `update.js` | Pull latest launcher and PiD source, refresh deps |
 | `reset.js` | Remove the `app/env` virtual environment |
 | `link.js` | Deduplicate venv packages to save disk |
 | `torch.js` | Cross-platform PyTorch install helper |
