@@ -9,7 +9,7 @@ One-click Pinokio launcher for [NVIDIA PiD](https://github.com/nv-tlabs/PiD): a 
 ## What this launcher provides
 
 1. **Gradio Web UI** — Z-Image text-to-image with live previews, then PiD 4× super-resolution. Compare native VAE vs PiD with a slider.
-2. **Flux CLI demo** — Runs the official `from_ldm_flux` inference script and saves side-by-side outputs under `results/demo-flux/`.
+2. **Flux CLI demo** — Runs the official `from_ldm --backbone flux` inference script and saves side-by-side outputs under `results/demo-flux/`.
 3. **Checkpoint download** — Pulls Flux/Z-Image-compatible PiD weights from Hugging Face.
 
 ## Requirements
@@ -23,7 +23,7 @@ One-click Pinokio launcher for [NVIDIA PiD](https://github.com/nv-tlabs/PiD): a 
 1. Click **Install** — clones [nv-tlabs/PiD](https://github.com/nv-tlabs/PiD) into `app/`, creates a Python venv, installs PyTorch and dependencies, and runs `verify_env.py`.
 2. Click **Download Checkpoints** — downloads Flux-compatible PiD weights into `app/checkpoints/`.
 3. Click **Start** — launches the Gradio UI at `http://127.0.0.1:<port>`.
-4. Optional: **Flux CLI Demo** — batch inference without the web UI.
+4. Optional: **Flux CLI Demo** — batch inference without the web UI. It uses the gated [FLUX.1-dev](https://huggingface.co/black-forest-labs/FLUX.1-dev) model: accept its license on Hugging Face and run `hf auth login` (or set `HF_TOKEN`) first.
 
 On first **Start**, Z-Image weights are fetched from Hugging Face automatically.
 
@@ -33,19 +33,19 @@ After install, you can run any upstream script from a Pinokio terminal:
 
 ```bash
 cd app
-PYTHONPATH=. python -m pid._src.inference.from_ldm_flux \
+PYTHONPATH=. python -m pid._src.inference.from_ldm --backbone flux \
   --prompt "A photorealistic cat" \
   --ldm_inference_steps 28 --save_xt_steps 24 \
   --output_dir ../results/demo \
   --cfg_scale 1 --pid_inference_steps 4 --scale 4
 ```
 
-For 4K decoding:
+For 4K decoding (`--resolution` is the final output size; the LDM runs at 1/4 of it):
 
 ```bash
-PYTHONPATH=. python -m pid._src.inference.from_ldm_flux \
+PYTHONPATH=. python -m pid._src.inference.from_ldm --backbone flux \
   --prompt "A photorealistic cat" \
-  --resolution 1024 --pid_ckpt_type 2kto4k_v1pt5 \
+  --resolution 4096 --pid_ckpt_type 2kto4k_v1pt5 \
   --ldm_inference_steps 28 --save_xt_steps 24 \
   --output_dir ../results/demo_4k \
   --cfg_scale 1 --pid_inference_steps 4 --scale 4
@@ -81,7 +81,7 @@ import os
 import subprocess
 
 subprocess.run([
-    "python", "-m", "pid._src.inference.from_ldm_flux",
+    "python", "-m", "pid._src.inference.from_ldm", "--backbone", "flux",
     "--prompt", "A photorealistic cat",
     "--ldm_inference_steps", "28",
     "--save_xt_steps", "24",

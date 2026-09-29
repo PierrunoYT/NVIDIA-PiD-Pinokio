@@ -103,7 +103,7 @@ module.exports = {
         }
         menu.push({
           icon: "fa-solid fa-wand-magic-sparkles",
-          text: "<div><strong>Flux CLI Demo</strong><div>Official from_ldm_flux script</div></div>",
+          text: "<div><strong>Flux CLI Demo</strong><div>Official from_ldm script (Flux backbone)</div></div>",
           href: "demo-flux.js",
         })
         menu.push(

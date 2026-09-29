@@ -24,7 +24,7 @@ module.exports = {
           PYTHONPATH: "."
         },
         message: [
-          "python -m pid._src.inference.from_ldm_flux --prompt \"A photorealistic half-body portrait of a brown tabby cat with bold stripes sitting attentively on a rustic wooden kitchen table, soft morning light, detailed fur, photorealistic\" --ldm_inference_steps 28 --save_xt_steps 24 --output_dir ../results/demo-flux --cfg_scale 1 --pid_inference_steps 4 --scale 4"
+          "python -m pid._src.inference.from_ldm --backbone flux --prompt \"A photorealistic half-body portrait of a brown tabby cat with bold stripes sitting attentively on a rustic wooden kitchen table, soft morning light, detailed fur, photorealistic\" --ldm_inference_steps 28 --save_xt_steps 24 --output_dir ../results/demo-flux --cfg_scale 1 --pid_inference_steps 4 --scale 4"
         ]
       }
     },
