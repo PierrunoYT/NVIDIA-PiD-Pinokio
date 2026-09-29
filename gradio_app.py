@@ -199,7 +199,7 @@ def generate(
     if not prompt or not prompt.strip():
         raise gr.Error("Please enter a prompt.")
 
-    if randomize_seed:
+    if randomize_seed or seed is None:
         seed = random.randint(0, 2**31 - 1)
     seed = int(seed)
     num_inference_steps = int(num_inference_steps)
