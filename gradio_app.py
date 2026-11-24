@@ -301,7 +301,7 @@ CSS = """
 .gradio-container { max-width: 1200px !important; margin: auto !important; }
 """
 
-with gr.Blocks(title="PiD", css=CSS) as demo:
+with gr.Blocks(title="PiD") as demo:
     gr.Markdown(DESCRIPTION)
     with gr.Row():
         prompt = gr.Textbox(
@@ -346,4 +346,4 @@ with gr.Blocks(title="PiD", css=CSS) as demo:
 
 
 if __name__ == "__main__":
-    demo.queue().launch(server_name=ARGS.host, server_port=ARGS.port)
+    demo.queue().launch(server_name=ARGS.host, server_port=ARGS.port, css=CSS)

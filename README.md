@@ -97,7 +97,7 @@ subprocess.run([
 After the Web UI is running, list routes:
 
 ```bash
-curl http://127.0.0.1:7860/info
+curl http://127.0.0.1:7860/gradio_api/info
 ```
 
 Then POST to `/gradio_api/call/generate` (the route is pinned via `api_name="generate"`).
